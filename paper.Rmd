@@ -25,7 +25,7 @@ biblio-style: apsr
 title: "Corn or soybean? From the aspect of soil carbon in the Corn Belt"
 thanks: " **Current version**: `r format(Sys.time(), '%B %d, %Y')`; **Corresponding author**: "
 author:
-- name: Yining Wu, Eric Davis, Brent Sohngen
+- name: Yining Wu, Eric C. Davis, and Brent Sohngen
   affiliation: 
 abstract: " Soil is receiving increasing attention as a natural sink for carbon which can reduce atmospheric CO2. This paper tries to answer whether we can increase soil organic carbon stocks under corn-soybean cropping systems by changing crop rotation sequences. We find planting continuous corn or corn-soybean rotation significantly increases SOC stocks compared to always fallow or continuous soybean in the soil as deep as 100 cm. Specifically, growing corn for at least two years every three years significantly increases the SOC by about 1.15 Mg/ha compared to monocropping of soybean. Applying this result to Ohio, Iowa, and Illinois, we estimate that the total potential increase of SOC stocks under three policies: 1) converting current always fallow, always soybean, and corn-soybean-soybean cropland to monocropping corn, 2) converting them to corn-soybean-corn, 3) converting them to soybean-corn-corn are as much as 1,600g, 3,600g, and 3,250g, with the third policy has the highest estimated SOC stocks increase."
 keywords: ""
