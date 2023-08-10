@@ -1,7 +1,7 @@
 ---
 title: "Corn or soybean? From the aspect of soil carbon in the Corn Belt"
 author:
-- name: Yining Wu,
+- name: Yining Wu
   affiliation: Agricultural, Environmental, and Development Economics, The Ohio State
     University
 - name: Eric C. Davis
@@ -18,19 +18,27 @@ output:
     latex_engine: pdflatex
     template: "~/Library/CloudStorage/OneDrive-TheOhioStateUniversity/carbon/github/AgCarbon/templates/svm-latex-ms.tex"
   word_document: default
+  html_document:
+    df_print: paged
 keywords: ''
 abstract: " Soil is receiving increasing attention as a natural sink for carbon which
-  can reduce atmospheric CO2. Crop species choices, however, are usually overlooked as a way to increase soil organic carbon. This paper tries to answer whether we can increase soil organic carbon stocks under the predominant corn-soybean cropping systems by changing
-  crop rotation sequences. We find corn-soybean rotation significantly increases SOC stocks as deep as 100 cm compared to always fallow, with corn having a stronger impact on increasing SOC stocks compared to soybean. Specifically, monocropping of corn in the past three
-  years increases SOC stocks in 100 cm by 15.03% compared to monocropping of soybean,
-  and by 12.41% compared to corn for one year followed by soybean for two years. Evidence
-  also shows that having corn for two years in the past three years results in higher
-  SOC stocks than if not. Taking the soil health and crop yield into consideration,
-  having corn for two years and soybean for one year is suggested to be the best cropping
-  sequence. Applying this result to Corn Belt states - Ohio, Indiana, Iowa, and Illinois,
-  we estimate that the total potential increase of SOC stocks by transferring current soils
-  covered by continuous soybean, soybean for two years and corn for one year, or always
-  fallow into corn for two years and soybean for one year in every three years is 22 million Mg in Ohio, 45 million Mg in Indiana, 92 million Mg in Iowa, and 44 million Mg in Illinois."
+  can reduce atmospheric CO2. Crop species choices, however, are usually overlooked
+  as a way to increase soil organic carbon. This paper tries to answer whether we
+  can increase soil organic carbon stocks under the predominant corn-soybean cropping
+  systems by changing crop rotation sequences. We find corn-soybean rotation significantly
+  increases SOC stocks as deep as 100 cm compared to always fallow, with corn having
+  a stronger impact on increasing SOC stocks compared to soybean. Specifically, monocropping
+  of corn in the past three years increases SOC stocks in 100 cm by 15.03% compared
+  to monocropping of soybean, and by 12.41% compared to corn for one year followed
+  by soybean for two years. Evidence also shows that having corn for two years in
+  the past three years results in higher SOC stocks than if not. Taking the soil health
+  and crop yield into consideration, having corn for two years and soybean for one
+  year is suggested to be the best cropping sequence. Applying this result to Corn
+  Belt states - Ohio, Indiana, Iowa, and Illinois, we estimate that the total potential
+  increase of SOC stocks by transferring current soils covered by continuous soybean,
+  soybean for two years and corn for one year, or always fallow into corn for two
+  years and soybean for one year in every three years is 22 million Mg in Ohio, 45
+  million Mg in Indiana, 92 million Mg in Iowa, and 44 million Mg in Illinois."
 geometry: margin=1in
 fontsize: 11pt
 bibliography: soilcarbon.bib
@@ -166,16 +174,18 @@ Based on the result, we propose nine hypothetical policies - converting fallow-f
 | csc-sss | 63.1     | 1.67    | 0.0498   | 0.0826       | Inf           |
 | csc-css | 77.4     | 2.47    | 0.0079   | 25.2         | Inf           |
 |---------|----------|---------|----------|--------------|---------------|
-| scc-fff | -184     | -1.74   | 0.0483   | 1.94         | Inf           |
+| scc-fff | 184      | 1.74    | 0.0483   | 1.94         | Inf           |
 | scc-sss | 144      | 1.32    | 0.0999   | -43          | Inf           |
-| scc-css | -158     | -1.48   | 0.0769   | -25.7        | Inf           |
+| scc-css |  158     | 1.48    | 0.0769   | -25.7        | Inf           |
 
 : Welch Two Sample t-test
 
+
 # Corn-soybean cropping systems in the Corn Belt
 
-![Distribution of corn-soybean sequences](output/figures/CSmap.png)
 As Figure 2 shows, most of the corn-soybean rotation observations center in the Corn Belt. We randomly sampled 40,000 points within CDL in Ohio, Indiana, Iowa, and Illinois, separately from 2008 to 2021 to track the crop types on the same points across time. As Figure 3 shows, planting each of corn and soybean equally for 7 years in the past 14 years is a large majority. The percentage decreases with the deviation from the center. Among the four states, farmers in Ohio and Indiana tend to prefer planting soybean more often, while farmers in Iowa and Illinois tend to prefer planting corn more often.
+
+![Distribution of corn-soybean sequences in sample](output/figures/CSmap.png)
 
 ![Crop planting years of corn-soybean cropping system from 2008-2021](output/figures/14yearsrotation.png)
 
