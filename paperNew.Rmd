@@ -1,0 +1,415 @@
+---
+title: |
+  | 
+  | \vspace{0.7cm}Corn or soybean?
+  |  From the aspect of soil carbon in the Corn Belt\vspace{0.5cm}
+  |
+author:
+  - Yining Wu, Eric C. Davis, and Brent L. Sohngen^[Yining Wu (wu.4912@osu.edu) is a graduate srudent in the Department of Agricultural, Environmental, \& Development Economics, the Ohio State University. Eric C. Davis (eric.davis3@usda.gov) is a research economist at the USDA Economic Research Service. Brent L. Sohngen (sohngen.1@osu.edu) is a professor in the Department of Agricultural, Environmental, \& Development Economics, the Ohio State University.]
+date: |
+  | `r gsub("^0", "", format(Sys.time(), "%B %d, %Y"))`
+linestretch: 1.0
+colorlinks: true
+abstract: \noindent\setstretch{1}Soil is receiving increasing attention as a natural sink for carbon which can reduce atmospheric CO2. Crop species choices, however, are usually overlooked as a way to increase soil organic carbon. This paper tries to answer whether we can increase soil organic carbon stocks under the predominant corn-soybean cropping systems by changing crop rotation sequences. By modeling the SOC stocks in depths of 1 to 100 cm at each site as a function of cropping sequences in the past 3 years and other environment and soil characteristics, we find corn tends to have a stronger impact on increasing SOC stocks compared to soybean. Specifically, monocropping of corn in the past three years increases SOC stocks in the depth of 100 cm by 78.60% compared to monocropping of soybean. Within corn-soybean rotation system, planting corn for more years and in more recent years leads to higher SOC stocks. Based on the result, we propose five hypothetical policies - converting monocropping of soybean to 1-year corn, 2-year corn, and monocropping of cron, and converting 1-year corn to 2-year corn and monocropping of corn. The total estimated potential of increase in SOC stocks in Ohio, Iowa, Indiana, and Illinois is estimated to be over 515 million Mg.\vspace{.8cm}
+header-includes:
+    - \usepackage{setspace}\doublespacing
+    - \usepackage{float}
+bibliography: soilcarbon.bib
+biblio-style: apsr
+output:
+  bookdown::pdf_document2:
+    toc: no
+    keep_tex: true
+mainfont: Times New Roman
+sansfont: Times New Roman
+spacing: double
+fontsize: 12pt
+link-citations: true
+documentclass: article
+geometry: margin=1in
+always_allow_html: yes
+indent: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE)
+# Use cache = TRUE if you want to speed up compilation
+```
+
+```{r inline, include=FALSE}
+# A function to allow for showing some of the inline code
+rinline <- function(code){
+  html <- '<code  class="r">``` `r CODE` ```</code>'
+  sub("CODE", code, html)
+}
+```
+
+\clearpage
+
+```{=tex}
+\renewcommand{\baselinestretch}{0.5}\normalsize
+\tableofcontents
+\renewcommand{\baselinestretch}{1.1}\normalsize
+```
+\clearpage
+
+\doublespacing
+
+# Introduction
+
+Global climate change is happening faster and more drastic than expected. According to Intergovernmental Panel on Climate Change (IPCC, 2022), global warming of 1.5 \textcelsius and 2 \textcelsius will be exceeded during this century unless deep reductions in CO\textsubscript{2} and other greenhouse gas emissions occur in the coming decades. Soil is receiving increasing attention as a natural sink for carbon which can reduce atmospheric CO\textsubscript{2}. It is also a potentially large and uncertain source of CO\textsubscript{2} emissions as croplands under intensive cultivation have less soil carbon compared to pre-cultivation land uses like forests or grasslands [@lalSoilCarbonDynamics2002; @donImpactTropicalLanduse2011]. Changes in soil organic carbon stocks are a result of the imbalance between carbon inputs, mainly in the form of dead plant material or manure and outputs, mainly caused by decomposition, leaching and erosion [@poeplauCarbonSequestrationAgricultural2015]. Historically, between 32.5 and 35.7 million km$^{2}$ of natural vegetation, encompassing forests, woodlands, savannas, grasslands, and steppes have been converted to croplands [@defriesCombiningSatelliteData1999]. It is thus crucial to find effective methods to increase SOC stocks while simultaneously enhancing and maintaining high agricultural productivity.
+
+Many efforts have been devoted to finding and testing "best management practices" (BMP) for building soil carbon storage, including cover cropping, minimum tillage, advance nutrient management, and integrated crop-livestock systems [@dickImpactsAgriculturalManagement1998; @paustianClimatesmartSoils2016]. Crop species choices, however, are usually overlooked as a way to increase soil organic carbon. Current findings include comparing long-term or short-term effects of perennial, semi-perennial, and annual crops [@ferchaudChangesSoilCarbon2016], carbon benefits of converting traditional crops into biomass energy crops [@chenAssessingReturnsLand2021] or to permanent herbaceous cover [@swanPrincetonNetZeroAmerica]. However, under the pressure of food security, there is a need to identify the various effects of soil carbon within the traditional cropping system that increases soil organic matter and is supportive of enhanced food production and other ecosystem services.
+
+Corn (*Zea mays L.*) and soybean [*Glycine max (L.) Merr.*], the backbone of Midwestern crop production are often grown in rotation for yield-enhancing and input-saving [@porter1997; @liebigCropSequenceNitrogen2002; @livingston2015]. Focusing on the carry-over length, corn has one-year memory (soybeans in the prior year is yield increasing (16.5 bu./ac.) and nitrogen saving (51 lb./ac.), and soybean has two-year memory (Corn in the prior year (two years) increases soybean yield by 7 bu./ac. (11.6 bu./ac.) [@hennessy2006]. The reduction in soil organic matter, however, is also ongoing with the corn-soybean rotation. Corn-soybean rotation systems have been examined to have lower SOC storage compared to the continuous corn systems [@russellImpactNitrogenFertilization2005; @khanMythNitrogenFertilization2007; @poffenbarger2017]. The main explanation for this phenomenon is that rotation of N-rich soybean litter and relatively N-poor corn litter may stimulate the decomposition of litter and soil organic carbon (SOC) by promoting microbial growth after the corn phase and stimulating priming after the soybean phase [@kuzyakov2010; @hall2019; @qinAssessingLongtermImpacts2023].
+
+Generally, researchers utilize four methods to estimate the soil biology impacts of different crops on soil carbon. IPCC proposed a method with three tiers of detail to account for changes in soil carbon stocks due to land use [@eggleston20062006]. However, since this method rely heavily on default factors, large discrepancies regarding SOC change have been revealed when comparing with regionalized models [@del2016simulating]. One alternative for assessments of impact of land use on soil carbon is to use process-based models. Models like Rothamsted Carbon Model (RothC) [@moraisDetailedGlobalModelling2019]}, DayCent [@delgrosso2009], and Agricultural Production Systems Simulator (APSIM) [@luoModelingLongtermSoil2011] consider biogeochemical processes formulated according to mathematical-ecologicaltheory. They are capable of simulating SOC turnover according to specific site conditions and relating it to management practices. They address user-defined temporal and spatial scales based on scenarios that characterize intra and inter-annual dynamics. Another alternative is to do field experiments [@dickImpactsAgriculturalManagement1998; @russellImpactNitrogenFertilization2005; @huggins2007]. Long-term field studies are needed since the changes in the soil carbon pool might take more years to be detectable. The measurements are also significantly uncertain due to temporal and spatial variability. Some studies conducted meta-analysis to compile existing available studies on the effect of management practices such as winter crops and fertilizer management in soil organic carbon [@poeplau2015; @hanChangesSoilOrganic2016].Nationwide measured data with uniformed standards enjoy the advantage of high accuracy and facticity. A few studies to date have used publicly avaibale databases like NRCS Soil Survey Geographic (SSURGO), Rapid Carbon Assessment (RaCA), and Forest Inventory and Analysis (FIA) to evaluate regional carbon stocks [@zhongScaleEffectsGeographical2011] with large differences have been found among data sets using various soil organic carbon calculation and various sampling selection [@baiComparingPubliclyAvailable2020; @gutwein2022]. However, few research has empirically estimated the soil carbon impact of crop choices using these public databases.
+
+In this paper, we estimate the impact of the sequences of the most predominant crops - corn and soybean on soil organic carbon (SOC) stocks by linking Rapid Carbon Assessment (RaCA) with Crop Data Layer (CDL). By modeling the SOC stocks in depths of 1 to 100 cm at each site as a function of cropping sequences in the past 3 years and other environment and soil characteristics, we find corn tends to have a stronger impact on increasing SOC stocks compared to soybean. Specifically, monocropping of corn in the past three years increases SOC stocks in depth of 100 cm by 82.39% compared to monocropping of soybean. Within corn-soybean rotation system, planting corn for more years and in more recent years leads to higher SOC stocks. Based on the result, we propose five hypothetical policies - converting monocropping of soybean to 1-year corn, 2-year corn, and monocropping of cron, and converting 1-year corn to 2-year corn and monocropping of corn. The estimated potential of increase in SOC stocks in Ohio, Iowa, Indiana, and Illinois is estimated to be over 752 million Mg.
+
+This paper makes several contributions to the literature. First, this is the first study to explore the possibility of increase soil sequestration by adjusting crop rotation sequences, which has not been given much attention in the usual discuss of "climate-smart agriculture" or "carbon farming". Second, this is the first study to combine a nationwide measured SOC data with an annual crop-specific land cover data layer using moderate resolution satellite imagery, which ensures data quality and consistency compared to fields experiments, and avoids parameter uncertainty and model specification uncertainty compared to process-based models. Third, we discuss the choice of crop rotation sequences considering the externality of soil carbon and propose three policies.
+
+# Soil carbon effects of different corn-soybean sequences
+
+We estimate the impact of crop types on SOC stocks by linking Rapid Carbon Assessment (RaCA) with Crop Data Layer (CDL). We obtain the measurements of SOC stocks and soil characteristics at depths of 5cm, 30 cm, and 100 cm at 2,105 cropland sites from RaCA data, which was conducted by USDA-NRCS between 2010 to 2011 in order to provide contemporaneous measurements of SOC across the US. A multi-level stratified random sampling scheme was created using major land resource area (MLRA) and then a combination of soil groups and land use/land cover classes. Next, using the latitude and longitude of RaCA sites, we extract crop types from CDL the year when collected by RaCA, one year before, and two years before. The CDL from USDA-NASS is an annual raster, geo-referenced, crop-specific land cover data layer (2008-) with a ground resolution of 30 or 56 meters depending on the state and year. We also extract mean temperature and mean precipitation 3 months before, 3-6 months before, and 6-12 months before the collection month respectively, at each site from PRISM Climate Data. Due to the different inputs and management across different crops, which are hard to control, here we consider the in aggregate effects of crop species on soil carbon and assume that management is homogeneous within each crop type. Figure 1 shows the distribution of crop types over the last two years. We can find corn-soybean rotation is the predominant cropping system in the U.S.
+
+![Distribution of crop types last year across crop types this year](output/figures/lastyear.png)
+
+Then we focus on the eight cropping sequences - continuous corn (ccc), continuous soybean (sss), and corn-soybean rotation including corn-corn-soybean (ccs), corn-soybean-corn (csc), corn-soybean-soybean (css), soybean-corn-corn(scc), soybean-corn-soybean (scs), and soybean-soybean-corn (ssc) (the order indicates crop type two years before-one year before -this year). We model the SOC stocks in depths of 1 to 100 cm at each site as a function of cropping sequences in the past 3 years. We take natural logarithm for the SOC stocks to improve model fit. Control variables include environmental characteristics including quarterly mean temperature, quarterly mean precipitation, latitude, as well as soil texture. We also include year and month fixed effects. Descriptive statistics summary is shown in Table A1.
+
+```{=latex}
+\begin{equation}\label{eq2}
+         log\left(SOC_{it}\right)=\beta_{0}
+       +\beta_{1} Envr_{it}
+        +\beta_{2} Soil _{i}
+        +\beta_{4} Rotation_{it}  
+        + \beta_{5} X_{it} + \varepsilon_{it} 
+\end{equation}
+
+
+where i indexes site and t indexes the observed time. $ SOC_{\mathrm {it}} $ denotes the amount of soil carbon stock (Mg/ha) for site i in year t. $ \mathrm {Envr}_{it} $ are environmental variables at site i in year t including latitude, mean temperature and mean precipitation 3 months before and 4-12 months before the collection month respectively. $ \mathrm {Soil}_{i} $ denotes soil characteristics variables at site i (soil texture). $ \mathrm {Rotation}_{it} $ indicates the cropping sequence at site i in year t, 1 year before year t, and 2 years before year t. $ \mathrm{X}_{it} $ are area and year and month fixed effects. $ \mathrm \varepsilon_{it} $ is error term.
+```
+Results in Table A2 indicate crops have different impacts on SOC stocks at different depths with a lag effect. We find corn tends to have a stronger impact on increasing SOC stocks compared to soybean. Specifically, monocropping of corn in the past three years increases SOC stocks in 100 cm by 78.60% compared to monocropping of soybean. Within corn-soybean rotation system, planting corn for more years and in more recent years leads to higher SOC stocks. To make results more focused, we divide the eight crop sequences into four groups based on the number of years of corn in the past three years from zero to three (labeled as 0c, 1c, 2c, and 3c). Then we run the above regression again.
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{The effects of different years of corn plantation in corn-soybean system on log(SOC(0-100cm)) stocks}
+  \resizebox{0.8\textwidth}{!}{
+\begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-5} 
+\\[-1.8ex] & \multicolumn{4}{c}{log(SOCstock100)} \\ 
+ & ref(0c) & ref(1c) & ref(2c) & ref(3c) \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+0c &  & $-$0.246$^{**}$ & $-$0.381$^{***}$ & $-$0.559$^{**}$  \\ 
+  &  & (0.107) & (0.108) & (0.219) \\ 
+  & & & & \\ 
+1c & 0.246$^{**}$ &  & $-$0.136$^{**}$ & $-$0.313$^{**}$  \\ 
+  & (0.107) &  & (0.057) & (0.132) \\ 
+  & & & & \\ 
+2c & 0.381$^{***}$ & 0.136$^{**}$ &  & $-$0.177  \\ 
+  & (0.108) & (0.057) &  &(0.111)  \\ 
+  & & & & \\ 
+3c & 0.559$^{**}$ & 0.313$^{**}$ & 0.177  &  \\ 
+  & (0.219) & (0.132)  & (0.111) &  \\ 
+  & & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 297 & 297 & 297 & 297 \\ 
+R$^{2}$ & 0.231 & 0.231 & 0.231 & 0.231 \\ 
+Adjusted R$^{2}$ & 0.144 & 0.144 & 0.144 & 0.144 \\ 
+Residual Std. Error (df = 266) & 0.639 & 0.639 & 0.639 & 0.639 \\ 
+F Statistic (df = 30; 266) & 2.664$^{***}$ & 2.664$^{***}$ & 2.664$^{***}$ & 2.664$^{***}$ \\  
+\hline 
+\hline \\[-1.8ex] 
+\end{tabular}
+}
+\end{center}
+\footnotesize Note: $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01 \\
+\end{table}
+```
+Table 1 shows the effects of different years of corn plantation in corn-soybean system on SOC stocks from 0 to 100cm. Results indicate the significantly positive impact of corn on SOC stocks. Specifically, compared to soils under monocropping of soybean, soils under 1-year corn has 27.89% more SOC stocks, soils under 2-year corn has 46.37% more SOC stocks, and soils under monocropping of corn has 74.89% more SOC stocks. Compared to soils under 1-year corn, soils under 2-year corn has 14.57% more SOC stocks and soils under monocropping of corn has 36.75% more SOC stocks respectively. Robustness check results shown in table A3 show similar results across different model specifications. Specifically, we explore the effects of different years of corn plantation on SOC stocks across different depths. As shown in table 2, the effects mainly happen to the surface soil from 0 to 30 cm. For the depth of 30 to 100 cm, only monocropping of corn for the past three years significantly increase the SOC stocks.
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{The effects of different years of corn plantation in corn-soybean systems on log(SOC(Mg/ha)) stocks at different depths}
+  \resizebox{1\textwidth}{!}{
+ \begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-5} 
+\\[-1.8ex] & \multicolumn{3}{c}{log(SOC)} & log(SOCstock100) \\ 
+ & 0-5 cm & 5-30 cm & 30-100 cm & 0-100 cm \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+1c & 0.197 & 0.196$^{**}$ & 0.241 & 0.246$^{**}$ \\ 
+  & (0.131) & (0.080) & (0.171) & (0.107) \\ 
+  & & & & \\ 
+2c & 0.319$^{**}$ & 0.439$^{***}$ & 0.245 & 0.381$^{***}$ \\ 
+  & (0.132) & (0.093) & (0.166) & (0.108) \\ 
+  & & & & \\ 
+3c & 0.371$^{***}$ & 0.606$^{***}$ & 0.491$^{*}$ & 0.559$^{**}$ \\ 
+  & (0.132) & (0.189) & (0.297) & (0.219) \\ 
+  & & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 325 & 322 & 297 & 297 \\ 
+R$^{2}$ & 0.241 & 0.261 & 0.243 & 0.231 \\ 
+Adjusted R$^{2}$ & 0.163 & 0.185 & 0.157 & 0.144 \\ 
+Residual Std. Error & 0.545 (df = 294) & 0.618 (df = 291) & 0.791 (df = 266) & 0.639 (df = 266) \\ 
+F Statistic & 3.109$^{***}$ (df = 30; 294) & 3.423$^{***}$ (df = 30; 291) & 2.842$^{***}$ (df = 30; 266) & 2.664$^{***}$ (df = 30; 266) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\end{tabular} 
+}
+\end{center}
+\footnotesize Note: $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01. Reference group is 0c. \\
+\end{table}
+```
+![log (SOC stocks (Mg/ha)) for different years of corn plantation in corn-soybean systems at 0-5cm, 5-30 cm, 30-100cm depth](output/figures/box4group.png)
+
+To test the increase of SOC stocks with the increasing of corn plantation years, we do t-test for difference of log(SOC stocks (0-100cm)) between different years of corn plantation in corn-soybean systems. Due to the unequal population variances, we choose to do one-tailed Welch two-sample t-test. Table 3 shows that the group between 1-year corn and monocropping of soybean, 2-year corn and monocropping of soybean, monocropping of corn and monocropping of soybean, 2-year corn and 1-year corn, monocropping of corn and 1-year-corn, and monocropping of corn and 1-year-corn reject the null hypothesis that the difference of the mean value is less than zero at the level of 10%.
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{One-tailed Welch Two Sample t-test for difference of log(SOC stocks (0-100cm)) between different years of corn plantation in corn-soybean systems}
+  \resizebox{0.8\textwidth}{!}{
+\begin{tabular}{@{\extracolsep{5pt}}lcccccc} \\[-1.8ex]\hline 
+          & & & & & \\ 
+        Null Hypothesis (H0) & estimate & statistic & p.value & conf.low & conf.high \\ 
+         & & & & & \\ 
+        \hline
+         & & & & & \\ 
+        log(SOC(1c))-log(SOC(0c)) <0 & 0.239 & 1.41 & 0.0845 & -0.0487 & Inf \\
+          & & & & & \\ 
+        log(SOC(2c))-log(SOC(1c)) <0 & 0.147 & 1.52 & 0.0646 & -0.0125 & Inf \\ 
+         & & & & & \\ 
+        log(SOC(2c))-log(SOC(0c)) <0 & 0.386 & 2.27 & 0.0149 & 0.0983 & Inf \\ 
+         & & & & & \\ 
+        log(SOC(3c))-log(SOC(2c)) <0 & 0.285 & 1.79 & 0.0386 & 0.02 & Inf \\ 
+         & & & & & \\ 
+        log(SOC(3c))-log(SOC(1c)) <0 & 0.432 & 2.71 & 0.00408 & 0.167 & Inf \\ 
+         & & & & & \\ 
+        log(SOC(3c))-log(SOC(0c)) <0 & 0.671 & 3.17 & 0.00121 & 0.317 & Inf \\ 
+         & & & & & \\ 
+      \hline
+    \end{tabular}
+}
+\end{center}
+\footnotesize Note:  \\
+\end{table}
+```
+# Corn-soybean cropping systems in the Corn Belt
+
+As Figure 3 shows, most of the corn-soybean rotation observations center in the Corn Belt. We randomly sampled 40,000 points within CDL in Ohio, Indiana, Iowa, and Illinois, separately from 2008 to 2021 to track the crop types on the same points across time. As Figure A1 shows, planting each of corn and soybean equally for 7 years in the past 14 years is a large majority. The percentage decreases with the deviation from the center. Among the four states, farmers in Ohio and Indiana tend to prefer planting soybean more often, while farmers in Iowa and Illinois tend to prefer planting corn more often. Figure 4 shows the percentage of different year of cron plantation in corn-soybean system in the Corn Belt 2019-2021. The proportions of monocropping of soybean and 1-year corn in Ohio and Indian are higher than those of Illinois and Iowa.
+
+![Distribution of corn-soybean sequences in sample](output/figures/CSmap_4group.png)
+
+![Percent of different year of cron plantation in corn-soybean system in the Corn Belt 2019-2021](output/figures/percentageCB.png)
+
+Applying the result of SOC stocks models, we estimate the potential increase of SOC stocks with five hypothetical policies - converting monocropping of soybean to 1-year corn, 2-year corn, and monocropping of cron, and converting 1-year corn to 2-year corn and monocropping of corn. As Table 4 shows, the potential increase of SOC by converting monocropping of soybean to 1-year corn is estimated to be 8 million Mg in Ohio, 1 million Mg in Iowa, 5 million Mg in Illinois, and 5 million Mg in Indiana. Second, the potential increase of SOC by converting monocropping of soybean to 2-year corn is estimated to be 14 million Mg in Ohio, 2 million Mg in Iowa, 9 million Mg in Illinois, and 9 million Mg in Indiana. Third, the potential increase of SOC by converting monocropping of soybean to monocropping of corn is estimated to be 22 million Mg in Ohio, 3 million Mg in Iowa, 15 million Mg in Illinois, and 15 million Mg in Indiana. Fourth, the potential increase of SOC by converting 1-year corn to 2-year corn is estimated to be 24 million Mg in Ohio, 66 million Mg in Iowa, 56 million Mg in Illinois, and 37 million Mg in Indiana. Fifth, the potential increase of SOC by converting 1-year corn to monocropping of corn is estimated to be 60 million Mg in Ohio, 165 million Mg in Iowa, 141 million Mg in Illinois, and 93 million Mg in Indiana. The total estimated potential of increase in SOC stocks in Ohio, Iowa, Indiana, and Illinois is estimated to be over 515 million Mg.
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{Potential increase of SOC stocks (Mg) across polices and states}
+  \resizebox{0.8\textwidth}{!}{
+\begin{tabular}{@{\extracolsep{5pt}}lcccccc} \\[-1.8ex]\hline 
+ & & & & & \\ 
+        policy & OH & IA & IL & IN & Corn Belt \\ 
+         & & & & & \\ 
+        \hline
+         & & & & & \\ 
+        0c to 1c & 8,269,692.81 & 1,304,662.69 & 5,439,666.92 & 5,564,200.01 & 20,578,222.43 \\  & & & & & \\ 
+        0c to 2c & 13,750,649.35 & 2,169,362.22 & 9,044,949.32 & 9,252,019.99 & 34,216,980.88 \\  & & & & & \\ 
+        0c to 3c & 22,206,418.66 & 3,503,381.15 & 14,607,014.27 & 14,941,420.15 & 55,258,234.23 \\  & & & & & \\ 
+        1c to 2c & 24,014,205.39 & 65,563,705.08 & 56,030,313.84 & 36,698,449.46 & 182,306,673.78 \\  & & & & & \\ 
+        1c to 3c & 60,582,254.35 & 165,401,977.40 & 141,351,448.82 & 92,581,651.71 & 459,917,332.28 \\& & & & & \\ 
+     \hline   
+    \end{tabular}
+}
+\end{center}
+\end{table}
+```
+It is worth noting that crop rotations have been widely shown as an effective approach for improving yield or soil quality [@porter1997; @stecker1995]. Yields of rotated crops are higher because rotations reduce pest problems and enrich soils. Soybeans are commonly used by the subsequent corn crop to reduce fertilizer costs for corn [@livingston2015; @hennessy2006]. Including legumes in corn-based rotation systems also benefits local water quality by decreasing nitrate-N concentrations in subsurface drainage discharge [@koropeckyj-cox2021]. Taken together, we argue that converting current crop sequences to monocropping of corn, which might lead to increased cost in inputs and decreased yield, is not our ideal policy. Converting monocropping of soybean and 1-year soybean to 2-year soybean, thus, is our best choice to achieve the highest SOC stocks. As Figure A2 shows, farmers in Iowa and Illinois are more likely to grow corn more frequently in the rotation systems than farmers in Ohio and Indiana do, which would facilitate the implementation of the policies suggested. The total benefits of SOC stocks are estimated to be over 216 million Mg in Corn Belt. Applying this result to Social Cost of Carbon ranging from $40/tC to $100/tC [@cai2019], the total benefits are estimated to worth $8.6 billion to $21.6 billion. 
+
+
+
+\newpage
+
+# References {.unnumbered}
+
+```{=tex}
+\linespread{1}
+\singlespacing
+```
+::: {#refs}
+:::
+
+\newpage
+
+# Appendix {.unnumbered}
+
+\renewcommand{\thesection}{A}
+
+\setcounter{page}{1}
+
+```{=tex}
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\figurename}{Table}
+```
+```{=tex}
+\setcounter{figure}{0}
+\renewcommand\thefigure{A\arabic{figure}}
+\renewcommand{\figurename}{Figure}
+```
+| Variable                          |                        |         | Mean  | Sd     | Min   | Max     | N    |
+|---------|---------|---------|---------|---------|---------|---------|---------|
+| Soil Organic Carbon               | 0-5 cm                 |         | 17.15 | 22.42  | 0.46  | 262.72  | 351  |
+| (Mg/ha)                           | 5-30 cm                |         | 68.84 | 110.94 | 2.78  | 1005.52 | 348  |
+|                                   | 30-100 cm              |         | 97.25 | 225.86 | 4.17  | 2076.73 | 320  |
+| Crop sequences                    | 3c                     | ccc     |       |        |       |         | 181  |
+| (number of years of corn planted) | 2c                     | ccs     |       |        |       |         | 41   |
+|                                   |                        | csc     |       |        |       |         | 287  |
+|                                   |                        | scc     |       |        |       |         | 69   |
+|                                   | 1c                     | css     |       |        |       |         | 35   |
+|                                   |                        | scs     |       |        |       |         | 304  |
+|                                   |                        | ssc     |       |        |       |         | 26   |
+|                                   | 0c                     | sss     |       |        |       |         | 76   |
+| Soil texture                      | clay                   |         |       |        |       |         | 20   |
+|                                   | clay loam              |         |       |        |       |         | 42   |
+|                                   | fine sand              |         |       |        |       |         | 6    |
+|                                   | fine sandy loam        |         |       |        |       |         | 46   |
+|                                   | loam                   |         |       |        |       |         | 102  |
+|                                   | loamy fine sand        |         |       |        |       |         | 15   |
+|                                   | loamy sand             |         |       |        |       |         | 17   |
+|                                   | loamy very fine sand   |         |       |        |       |         | 3    |
+|                                   | sand                   |         |       |        |       |         | 6    |
+|                                   | sandy clay loam        |         |       |        |       |         | 3    |
+|                                   | silt                   |         |       |        |       |         | 9    |
+|                                   | silty clay             |         |       |        |       |         | 24   |
+|                                   | silty clay loam        |         |       |        |       |         | 162  |
+|                                   | silt loam              |         |       |        |       |         | 458  |
+|                                   | sandy loam             |         |       |        |       |         | 28   |
+|                                   | vary coarse sandy loam |         |       |        |       |         | 24   |
+| Area                              | east                   |         |       |        |       |         | 778  |
+|                                   | north                  |         |       |        |       |         | 138  |
+|                                   | south                  |         |       |        |       |         | 103  |
+| American Indian/Alaska Native     | yes                    |         |       |        |       |         | 9    |
+| /Native Hawaiian Areas            | no                     |         |       |        |       |         | 1010 |
+| Year                              | 2010                   |         |       |        |       |         | 490  |
+|                                   | 2011                   |         |       |        |       |         | 529  |
+| Season                            | spring                 | Mar-May |       |        |       |         | 415  |
+|                                   | summer                 | Jun-Aug |       |        |       |         | 66   |
+|                                   | fall                   | Sep-Nov |       |        |       |         | 464  |
+|                                   | winter                 | Dec-Feb |       |        |       |         | 74   |
+| Latitude (degree)                 |                        |         | 40.34 | 2.85   | 32.81 | 47.34   | 1019 |
+| Mean temeprature                  | past 0-3 months        |         | 10.19 | 6.73   | -6.1  | 28.11   | 1019 |
+| (degree celsius)                  | past 4-12 months       |         | 11.36 | 4.32   | -0.07 | 21.36   | 1019 |
+| Mean precipitation                | past 0-3 months        |         | 91.15 | 49.25  | 6.56  | 268.24  | 992  |
+| (inch)                            | past 4-12 months       |         | 89.14 | 19.6   | 25.03 | 146.86  | 1019 |
+
+: Descriptive statistis summary
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{The effects of different sequences of corn-soybean rotation on log(SOC(Mg/ha)) stocks}
+  \resizebox{1\textwidth}{!}{
+ \begin{tabular}{@{\extracolsep{5pt}}lcccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{8}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-9} 
+\\[-1.8ex] & \multicolumn{8}{c}{log(SOCstock100)} \\ 
+ & ref(ccc) & ref(ccs) & ref(csc) & ref(css) & ref(scc) & ref(scs) & ref(ssc) & ref(sss) \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8)\\ 
+\hline \\[-1.8ex] 
+ccc &  & 0.431$^{**}$ & 0.140 & 0.348 & 0.192 & 0.293$^{**}$ & 0.491$^{*}$ & 0.580$^{***}$ \\ 
+  &  & (0.212) & (0.123) & (0.238) & (0.182) & (0.121) & (0.271) & (0.211) \\ 
+  & & & & & & & & \\ 
+ccs & $-$0.431$^{**}$ &  & $-$0.291 & $-$0.083 & $-$0.239 & $-$0.137 & 0.060 & 0.149 \\ 
+  & (0.212) &  & (0.200) & (0.287)  & (0.238) & (0.200) & (0.311)  & (0.255) \\ 
+  & & & & & & & & \\ 
+csc & $-$0.140 & 0.291 &  & 0.209 & 0.052 & 0.154 & 0.352 & 0.440$^{**}$ \\ 
+  & (0.123) & (0.200) &  & (0.228) & (0.168) & (0.100) & (0.260) & (0.199) \\ 
+  & & & & & & & & \\ 
+css & $-$0.348 & 0.083 & $-$0.209 &  & $-$0.156 & $-$0.055 & 0.143 &  0.232 \\ 
+  & (0.238) & (0.287) & (0.228) &  & (0.267) & (0.228) & (0.331) & (0.266) \\ 
+  & & & & & & & & \\ 
+scc & $-$0.192 & 0.239 & $-$0.052 & 0.156 &  & 0.102 & 0.300 & 0.388 \\ 
+  & (0.182) & (0.238)  & (0.168) & (0.267) &  & (0.168) & (0.289) & (0.241) \\ 
+  & & & & & & & & \\ 
+scs & $-$0.293$^{**}$ & 0.137 & $-$0.154 & 0.055 & $-$0.102 &  & 0.198 & 0.286 \\ 
+  & (0.121) & (0.200) & (0.100) & (0.228) & (0.168) &  & (0.261) & (0.197) \\ 
+  & & & & & & & & \\ 
+ssc & $-$0.491$^{*}$ & $-$0.060 & $-$0.352 & $-$0.143 & $-$0.300 & $-$0.198 &  & 0.088 \\ 
+  & (0.271) & (0.311) & (0.260) & (0.331) & (0.289) & (0.261) &  &   (0.310) \\ 
+  & & & & & & & & \\ 
+sss & $-$0.580$^{***}$ & $-$0.149 & $-$0.440$^{**}$ & $-$0.232 & $-$0.388 & $-$0.286  & $-$0.088 &  \\ 
+  & (0.211) & (0.255) & (0.199) & (0.266)  & (0.241) & (0.197)  & (0.310) &  \\ 
+  & & & & & & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 297 & 297 & 297 & 297 & 297 & 297 & 297 & 297 \\ 
+R$^{2}$ & 0.239 & 0.239 & 0.239 & 0.239 & 0.239 & 0.239 & 0.239 & 0.239 \\ 
+Adjusted R$^{2}$ & 0.140 & 0.140 & 0.140 & 0.140 & 0.140 & 0.140 & 0.140 & 0.140 \\ 
+Residual Std. Error (df = 262) & 0.640 & 0.640 & 0.640 & 0.640 & 0.640 & 0.640 & 0.640 & 0.640 \\ 
+F Statistic (df = 34; 262) & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ & 2.419$^{***}$ \\ 
+\hline 
+\hline \\[-1.8ex] 
+\end{tabular} 
+
+}
+\end{center}
+\footnotesize Note: $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01 \\
+\end{table}
+```
+![Crop planting years of corn-soybean cropping system from 2008-2021](output/figures/14yearsrotation.png)
+
+```{=latex}
+\begin{table}[tbp]
+\begin{center}
+  \caption{The effects of different sequences of corn-soybean rotation on log(SOC(Mg/ha)) stocks across model specifications} 
+  \resizebox{1\textwidth}{!}{
+ \begin{tabular}{@{\extracolsep{5pt}}lcccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{4}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-5} 
+\\[-1.8ex] & SOCstock100 & \multicolumn{3}{c}{log(SOCstock100)} \\ 
+ & non-log & log & log & log \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4)\\ 
+\hline \\[-1.8ex] 
+1c & 110.388$^{***}$ & 0.246$^{**}$ & 0.329$^{**}$ & 0.264$^{**}$ \\ 
+  & (36.559) & (0.107) & (0.166) & (0.125) \\ 
+  & & & & \\ 
+2c & 130.007$^{***}$ & 0.381$^{***}$ & 0.467$^{***}$ & 0.385$^{***}$ \\ 
+  & (42.162) & (0.108) & (0.167) & (0.122) \\ 
+  & & & & \\ 
+3c & 209.262$^{***}$ & 0.559$^{**}$ & 0.640$^{***}$ & 0.596$^{**}$ \\ 
+  & (79.207) & (0.219) & (0.188) & (0.239) \\ 
+  & & & & \\ 
+\hline \\[-1.8ex] 
+Area fixed effects & Yes & Yes & No & Yes \\ 
+Season fixed effects & Yes & Yes & Yes & No \\ 
+Observations & 297 & 297 & 297 & 297 \\ 
+R$^{2}$ & 0.150 & 0.231 & 0.229 & 0.217 \\ 
+Adjusted R$^{2}$ & 0.054 & 0.144 & 0.148 & 0.138 \\ 
+Residual Std. Error & 212.289 (df = 266) & 0.639 (df = 266) & 0.637 (df = 268) & 0.641 (df = 269) \\ 
+F Statistic & 1.560$^{**}$ (df = 30; 266) & 2.664$^{***}$ (df = 30; 266) & 2.837$^{***}$ (df = 28; 268) & 2.759$^{***}$ (df = 27; 269) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\end{tabular} 
+
+}
+\end{center}
+\footnotesize Note: $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01 \\
+\end{table}
+```
+![Map of RaCA Regions](output/figures/RaCA_regionmap_0.jpeg)
